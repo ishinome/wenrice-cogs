@@ -21,7 +21,7 @@ class Poll(commands.Cog):
         self.bot = bot
 
     __author__ = ["Wenrice"]
-    __version__ = "1.1.5"
+    __version__ = "1.1.4"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -59,47 +59,36 @@ class Poll(commands.Cog):
         await e.add_reaction("⬆")
         await e.add_reaction("⬇")
 
-    @commands.command(name="poll", usage="[columns] <question> | <option1> | <option2> | ...")
+    @commands.command(name="poll", usage="<question> | <option1> | <option2> | ...")
     @commands.guild_only()
     @commands.bot_has_permissions(add_reactions=True, embed_links=True)
     @commands.cooldown(1, 5, commands.BucketType.member)
-    async def poll(self, ctx: commands.Context, columns: int = 2, *, question: str):
+    async def poll(self, ctx: commands.Context, *, question: str):
+        """
+        Make a poll with multiple options.
+
+        Each option must be separated by a |. Maximum number options is
+        10.
+
+        """
         with contextlib.suppress(discord.Forbidden):
             await ctx.message.delete()
-
-        questions = [q.strip() for q in question.split("|")]
+        questions = question.split("|")
         num = len(questions)
         if num > 21:
             return await ctx.send("You can only have 20 options in a poll")
         if num < 3:
             return await ctx.send("You need at least 2 options to make a poll")
-
         questions = list(zip(EMOJIS, questions))
-
         if len(bold(questions[0][1])) > 256:
             return await ctx.send("The question is too long.")
-
-        embed = discord.Embed(title=bold(questions[0][1]))
-        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
-
-        # Build option lines
-        option_lines = [f"{emoji} | {text}" for emoji, text in questions[1:]]
-
-        # Clamp columns: Discord won't reliably show >3 columns anyway
-        columns = max(1, min(3, columns))
-
-        # Split evenly by count
-        per_col = math.ceil(len(option_lines) / columns)
-        for c in range(columns):
-            chunk = option_lines[c * per_col : (c + 1) * per_col]
-            if not chunk:
-                continue
-            embed.add_field(
-                name="\u200b",            # blank header
-                value="\n".join(chunk),   # lines in this column
-                inline=True
-            )
-
+        embed = discord.Embed(
+            title=bold(questions[0][1]),
+        )
+        embed.set_author(
+            name=ctx.author.display_name, icon_url=ctx.author.display_avatar
+        )
+        embed.description = "\n".join([f"{i[0]} | {i[1]}" for i in questions[1:]])
         e = await ctx.send(embed=embed)
         for i in range(1, num):
             await e.add_reaction(EMOJIS[i])
