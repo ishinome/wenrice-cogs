@@ -9,7 +9,7 @@ from redbot.core.utils.chat_formatting import bold
 
 RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
-EMOJIS = ["None", "🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇶", "🇭", "🇮", "🇯", "🇰", "🇱", "🇲", "🇳"]
+EMOJIS = ["None", "🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬", "🇭", "🇮", "🇯", "🇰", "🇱", "🇲", "🇳", "🇴", "🇵", "🇶", "🇷", "🇸", "🇹"]
 
 
 class Poll(commands.Cog):
@@ -21,7 +21,7 @@ class Poll(commands.Cog):
         self.bot = bot
 
     __author__ = ["Wenrice"]
-    __version__ = "1.1.3"
+    __version__ = "1.1.4"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
