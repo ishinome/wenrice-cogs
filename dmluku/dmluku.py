@@ -8,7 +8,7 @@ class DmLuku(commands.Cog):
         self.bot = bot
 
     __author__ = ["Wenrice"]
-    __version__ = "0.0.1"
+    __version__ = "0.0.2"
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
@@ -26,4 +26,4 @@ class DmLuku(commands.Cog):
             except discord.Forbidden:
                 return
 
-        await channel.send(message.content)
+        await channel.send(f"{message.author}: {message.content}")
