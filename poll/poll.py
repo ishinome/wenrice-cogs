@@ -21,7 +21,7 @@ class Poll(commands.Cog):
         self.bot = bot
 
     __author__ = ["Wenrice"]
-    __version__ = "1.1.5"
+    __version__ = "1.1.6"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -68,7 +68,7 @@ class Poll(commands.Cog):
         Make a poll with multiple options.
 
         Each option must be separated by a |. Maximum number options is
-        10.
+        22.
 
         """
         with contextlib.suppress(discord.Forbidden):
@@ -76,7 +76,7 @@ class Poll(commands.Cog):
         questions = question.split("|")
         num = len(questions)
         if num > 21:
-            return await ctx.send("You can only have 20 options in a poll")
+            return await ctx.send("You can only have 22 options in a poll")
         if num < 3:
             return await ctx.send("You need at least 2 options to make a poll")
         questions = list(zip(EMOJIS, questions))
