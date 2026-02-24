@@ -21,7 +21,7 @@ class Poll(commands.Cog):
         self.bot = bot
 
     __author__ = ["Wenrice"]
-    __version__ = "1.1.6"
+    __version__ = "1.1.7"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -75,7 +75,7 @@ class Poll(commands.Cog):
             await ctx.message.delete()
         questions = question.split("|")
         num = len(questions)
-        if num > 21:
+        if num > 23:
             return await ctx.send("You can only have 22 options in a poll")
         if num < 3:
             return await ctx.send("You need at least 2 options to make a poll")
